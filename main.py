@@ -11,7 +11,7 @@
 from unicodedata import normalize
 import string
 
-alfabeto = 'abcdefghijklmnopqrstuvwxyz '
+alfabeto = 'abcdefghijklmnopqrstuvwxyz'
 
 letra_para_numero = dict(zip(alfabeto, range(len(alfabeto))))
 numero_para_letra = dict(zip(range(len(alfabeto)), alfabeto))
@@ -115,7 +115,8 @@ def ataque (msg_cifrada: str, idioma):
             tam_chave = i
             max_mmc = counter
 
-    print('\nTAMANHO PROVAVEL DA CHAVE: ' + tam_chave)
+    print('\nTAMANHO PROVAVEL DA CHAVE: ')
+    print(tam_chave)
 
     # separar a cifra em grupos do tamanho da chave provavel
 
