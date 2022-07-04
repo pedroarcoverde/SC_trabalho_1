@@ -8,6 +8,7 @@
 #     gerando um criptograma, enquanto o decifrador recebe uma senha e um criptograma que é
 #     decifrado segundo a cifra de Vigenère, recuperando uma mensagem.
 
+#alfabeto = 'aáàãbcçdeéêfghiíîjklmnoóõpqrstuúvwxyzAÁÀÃBCÇDEÉÊFGHIÍÎJKLMNOÓÕPQRSTUÚVWXYZ!?,. '
 alfabeto = 'abcdefghijklmnopqrstuvwxyz '
 
 letra_para_numero = dict(zip(alfabeto, range(len(alfabeto))))
@@ -70,23 +71,23 @@ def main():
         op = int(input("ESCOLHA UMA OPÇÃO:\n 1 - CIFRAR\n 2 - DECIFRAR\n 3 - ATACAR\n 4 - SAIR\n"))
 
         if ((op == 1) or (op == 2)):
-                chave = list(input('\nDIGITE A CHAVE\n'))
-                if (op == 1):
-                        cifra_gerada = cifra(list(input('\nDIGITE A MENSAGEM A SER CIFRADA\n')), chave)
-                        print("\nCIFRA GERADA:\n" + cifra_gerada)
-                        input()
+            chave = list(input('\nDIGITE A CHAVE\n'))
+            if (op == 1):
+                cifra_gerada = cifra(list(input('\nDIGITE A MENSAGEM A SER CIFRADA\n')), chave)
+                print("\nCIFRA GERADA:\n" + cifra_gerada)
+                input()
 
-                elif (op == 2):
-                        msg_obtida = decifra(list(input('\nDIGITE A MENSAGEM CIFRADA\n')), chave)
-                        print("\nMENSAGEM OBTIDA:\n" + msg_obtida)
-                        input()
+            elif (op == 2):
+                msg_obtida = decifra(list(input('\nDIGITE A MENSAGEM CIFRADA\n')), chave)
+                print("\nMENSAGEM OBTIDA:\n" + msg_obtida)
+                input()
 
         elif (op == 3):
-                idioma = int(input('\nESCOLHA QUAL IDIOMA:\n 1 - INGLÊS\n 2 - PORTUGUÊS\n'))
-                if ((idioma == 1) or (idioma == 2)):
-                        chave_provavel = ataque(input('\nDIGITE A MENSAGEM CIFRADA\n'), idioma)
-                        print("\nCHAVE PROVAVEL:\n" + chave_provavel)
-                        input()
+            idioma = int(input('\nESCOLHA QUAL IDIOMA:\n 1 - INGLÊS\n 2 - PORTUGUÊS\n'))
+            if ((idioma == 1) or (idioma == 2)):
+                chave_provavel = ataque(input('\nDIGITE A MENSAGEM CIFRADA\n'), idioma)
+                print("\nCHAVE PROVAVEL:\n" + chave_provavel)
+                input()
 
         elif (op == 4):
             break
