@@ -7,6 +7,8 @@
 #     O cifrador recebe uma senha e uma mensagem que é cifrada segundo a cifra de Vigenère,
 #     gerando um criptograma, enquanto o decifrador recebe uma senha e um criptograma que é
 #     decifrado segundo a cifra de Vigenère, recuperando uma mensagem.
+from unicodedata import normalize
+import string
 
 alfabeto = 'abcdefghijklmnopqrstuvwxyz '
 
@@ -14,6 +16,13 @@ letra_para_numero = dict(zip(alfabeto, range(len(alfabeto))))
 numero_para_letra = dict(zip(range(len(alfabeto)), alfabeto))
 
 def cifra(msg, chave):
+    
+    #limpa a mensagem (retira acentos, pontuação e coloca em maiscula)
+    msg = msg.replace(' ', '').lower() #tira espaços e coloca em maiscula 
+    msg = normalize('NFKD', msg).encode('ASCII','ignore').decode('ASCII') #tira acentos
+    msg = msg.translate(str.maketrans('', '', string.punctuation)) #tira pontuação
+
+    msg = list(msg) #transforma em lista
 
     # separa a mensagem em partes do tamanho da chave  
     msg_cifrada = ''
@@ -72,7 +81,7 @@ def main():
         if ((op == 1) or (op == 2)):
                 chave = list(input('\nDIGITE A CHAVE\n'))
                 if (op == 1):
-                        cifra_gerada = cifra(list(input('\nDIGITE A MENSAGEM A SER CIFRADA\n')), chave)
+                        cifra_gerada = cifra(input('\nDIGITE A MENSAGEM A SER CIFRADA\n'), chave)
                         print("\nCIFRA GERADA:\n" + cifra_gerada)
                         input()
 
