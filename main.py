@@ -19,11 +19,11 @@ numero_para_letra = dict(zip(range(len(alfabeto)), alfabeto))
 def cifra(msg, chave):
     
     #limpa a mensagem (retira acentos, pontuação e coloca em maiscula)
-    msg = msg.replace(' ', '').lower() #tira espaços e coloca em maiscula 
-    msg = normalize('NFKD', msg).encode('ASCII','ignore').decode('ASCII') #tira acentos
-    msg = msg.translate(str.maketrans('', '', string.punctuation)) #tira pontuação
+    msg = msg.replace(' ', '').lower()                                       #tira espaços e coloca em minuscula 
+    msg = normalize('NFKD', msg).encode('ASCII','ignore').decode('ASCII')    #tira acentos
+    msg = msg.translate(str.maketrans('', '', string.punctuation))           #tira pontuação
 
-    msg = list(msg) #transforma em lista
+    msg = list(msg)                                                          #transforma em lista
 
     # separa a mensagem em partes do tamanho da chave  
     msg_cifrada = ''
@@ -95,7 +95,7 @@ def main():
         elif (op == 3):
             idioma = int(input('\nESCOLHA QUAL IDIOMA:\n 1 - INGLÊS\n 2 - PORTUGUÊS\n'))
             if ((idioma == 1) or (idioma == 2)):
-                chave_provavel = ataque(input('\nDIGITE A MENSAGEM CIFRADA\n'), idioma)
+                chave_provavel = ataque(list(input('\nDIGITE A MENSAGEM CIFRADA\n')), idioma)
                 print("\nCHAVE PROVAVEL:\n" + chave_provavel)
                 input()
 
