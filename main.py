@@ -65,10 +65,61 @@ def decifra(msg_cifrada, chave):
 #     diferentes. Cada uma das mensagens deve ser utilizada para recuperar a senha geradora do
 #     keystream usado na cifração e então decifradas. 
 
-def ataque (msg_cifrada, idioma):
+def ataque (msg_cifrada: str, idioma):
 
-    # para o ataque...
     chave_provavel = ''
+
+    # formatando a mensagem cifrada para facilitar a analise
+    msg_cifrada = msg_cifrada.replace(' ', '').lower()
+
+    # frequencias em cada idioma para análise
+    en_freq = [
+            ('a', 8.167), ('b', 1.492), ('c', 2.782), ('d', 4.253),
+            ('e', 12.702), ('f', 2.228), ('g', 2.015), ('h', 6.094),
+            ('i', 6.966), ('j', 0.153), ('k', 0.772), ('l', 4.025),
+            ('m', 2.406), ('n', 6.749), ('o', 7.507), ('p', 1.929),
+            ('q', 0.095), ('r', 5.987), ('s', 6.327), ('t', 9.056),
+            ('u', 2.758), ('v', 0.978), ('w', 2.360), ('x', 0.150),
+            ('y', 1.974), ('z', 0.074)]
+
+    pt_freq = [
+            ('a', 14.63), ('b', 1.04), ('c', 3.88), ('d', 4.99),
+            ('e', 12.57), ('f', 1.02), ('g', 1.30), ('h', 1.28),
+            ('i', 6.18), ('j', 0.40), ('k', 0.02), ('l', 2.78),
+            ('m', 4.74), ('n', 5.05), ('o',10.73), ('p', 2.52),
+            ('q', 1.20), ('r', 6.53), ('s', 7.81), ('t', 4.34),
+            ('u', 4.63), ('v', 1.67), ('w', 0.01), ('x', 0.47),
+            ('y', 0.01), ('z', 0.47)]
+
+    # encontrar o comprimento provavel da chave
+    espacamento = []
+    max_chave = 20
+    tolerancia = 10
+
+    for i in range(len(msg_cifrada) - 2):
+        tmp = msg_cifrada[i] + msg_cifrada[i+1] + msg_cifrada[i+2]
+        for j in range(3, len(msg_cifrada) - 2 - i):
+            if tmp == msg_cifrada[i+j] + msg_cifrada[i+j+1] + msg_cifrada[i+j+2]:
+                espacamento.append(j)
+                break
+
+    if max_chave > len(msg_cifrada): max_chave = len(msg_cifrada)
+    max_mmc = 0
+    tam_chave = 0
+    for i in range(2, max_chave + 1):
+        counter = 0
+        for n in espacamento:
+            if n % i == 0:
+                counter += 1
+        if counter + tolerancia > max_mmc:
+            tam_chave = i
+            max_mmc = counter
+
+    print('\nTAMANHO PROVAVEL DA CHAVE: ' + tam_chave)
+
+    # separar a cifra em grupos do tamanho da chave provavel
+
+    # análise de frequencia de cada grupo
 
     # retorna a chave provavel
     return chave_provavel
@@ -95,7 +146,7 @@ def main():
         elif (op == 3):
             idioma = int(input('\nESCOLHA QUAL IDIOMA:\n 1 - INGLÊS\n 2 - PORTUGUÊS\n'))
             if ((idioma == 1) or (idioma == 2)):
-                chave_provavel = ataque(list(input('\nDIGITE A MENSAGEM CIFRADA\n')), idioma)
+                chave_provavel = ataque(input('\nDIGITE A MENSAGEM CIFRADA\n'), idioma)
                 print("\nCHAVE PROVAVEL:\n" + chave_provavel)
                 input()
 
