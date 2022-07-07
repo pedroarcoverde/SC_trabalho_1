@@ -115,8 +115,7 @@ def ataque (msg_cifrada: str, idioma):
             tam_chave = i
             max_mmc = counter
 
-    print('\nTAMANHO PROVAVEL DA CHAVE: ')
-    print(tam_chave)
+    print('\nTAMANHO PROVAVEL DA CHAVE: ' + str(tam_chave))
 
     # separar a cifra em grupos do tamanho da chave provavel
 
