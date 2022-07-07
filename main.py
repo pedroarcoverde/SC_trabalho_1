@@ -18,18 +18,18 @@ numero_para_letra = dict(zip(range(len(alfabeto)), alfabeto))
 
 def cifra(msg, chave):
     
-    #limpa a mensagem (retira acentos, pontuação e coloca em maiscula)
+#limpa a mensagem (retira acentos, pontuação e coloca em maiscula)
     msg = msg.replace(' ', '').lower()                                       #tira espaços e coloca em minuscula 
     msg = normalize('NFKD', msg).encode('ASCII','ignore').decode('ASCII')    #tira acentos
     msg = msg.translate(str.maketrans('', '', string.punctuation))           #tira pontuação
 
     msg = list(msg)                                                          #transforma em lista
 
-    # separa a mensagem em partes do tamanho da chave  
+# separa a mensagem em partes do tamanho da chave  
     msg_cifrada = ''
     split_msg = [msg[i:i + len(chave)] for i in range(0, len(msg), len(chave))]
 
-    # converte a mensagem e a chave em numeros, cifra por Vigenère a mensagem
+# converte a mensagem e a chave em numeros, cifra por Vigenère a mensagem
     for each_split in split_msg:
         i = 0
         for letra in each_split:
@@ -37,17 +37,17 @@ def cifra(msg, chave):
             msg_cifrada += numero_para_letra[numero]
             i += 1
 
-    # retorna a mensagem cifrada
+# retorna a mensagem cifrada
     return msg_cifrada
 
 
 def decifra(msg_cifrada, chave):
 
-    # separa a cifra em partes do tamanho da chave
+# separa a cifra em partes do tamanho da chave
     msg = ''
     split_msg_cifrada = [msg_cifrada[i:i + len(chave)] for i in range(0, len(msg_cifrada), len(chave))]
 
-    # converte a mensagem e a chave em numeros
+# converte a mensagem e a chave em numeros
     for each_split in split_msg_cifrada:
         i = 0
         for letra in each_split:
@@ -55,7 +55,7 @@ def decifra(msg_cifrada, chave):
             msg += numero_para_letra[numero]
             i += 1
 
-    # retorna a mensagem decifrada
+# retorna a mensagem decifrada
     return msg
 
 ###############################################################################################
@@ -67,12 +67,10 @@ def decifra(msg_cifrada, chave):
 
 def ataque (msg_cifrada: str, idioma):
 
-    chave_provavel = ''
-
     # formatando a mensagem cifrada para facilitar a analise
     msg_cifrada = msg_cifrada.replace(' ', '').lower()
 
-    # frequencias em cada idioma para análise
+# frequencias em cada idioma para análise
     en_freq = [
             ('a', 8.167), ('b', 1.492), ('c', 2.782), ('d', 4.253),
             ('e', 12.702), ('f', 2.228), ('g', 2.015), ('h', 6.094),
@@ -91,7 +89,7 @@ def ataque (msg_cifrada: str, idioma):
             ('u', 4.63), ('v', 1.67), ('w', 0.01), ('x', 0.47),
             ('y', 0.01), ('z', 0.47)]
 
-    # encontrar o comprimento provavel da chave
+# encontrar o comprimento provavel da chave
     espacamento = []
     max_chave = 20
     tolerancia = 10
@@ -117,11 +115,43 @@ def ataque (msg_cifrada: str, idioma):
 
     print('\nTAMANHO PROVAVEL DA CHAVE: ' + str(tam_chave))
 
-    # separar a cifra em grupos do tamanho da chave provavel
+# separar a cifra em grupos do tamanho da chave provavel
+    # tabela é uma matriz q contem os grupos para analise
+    tabela = []                                                         
+    
+    for i in range(tam_chave):
+        grupo = []
+        j = 0
+        while(j * tam_chave+i < len(msg_cifrada)):
+            grupo.append(msg_cifrada[j * tam_chave + i])
+            j += 1
+        tabela.append(grupo)
 
-    # análise de frequencia de cada grupo
+# análise de frequencia de cada grupo utilizando as rfequecias fornecidas pela wikipedia
+    freq = en_freq if idioma == 0 else pt_freq
+    chave_provavel = []
 
-    # retorna a chave provavel
+    for grupo in tabela:
+        chave_atual = ''
+        min_dif = 10000
+        for i in range(26):
+            aux = []
+            for c in grupo:
+                if ord(c) - i >= ord('a'):
+                    aux.append(chr(ord(c) - i))
+                else:
+                    aux.append(chr(ord('a') + 26 - i + (ord(c) % ord('a'))))
+            dif = 0
+            for c in aux:
+                prob = [letra for letra in freq if letra[0] == c][0][1] / 100
+                dif += abs(prob - (aux.count(c) / len(aux)))
+            dif = dif / len(aux)
+            if dif < min_dif:
+                min_dif = dif
+                chave_atual = chr(ord('a')+i)
+        chave_provavel.append(chave_atual)
+
+# retorna a chave provavel
     return chave_provavel
 
 
@@ -147,7 +177,9 @@ def main():
             idioma = int(input('\nESCOLHA QUAL IDIOMA:\n 1 - INGLÊS\n 2 - PORTUGUÊS\n'))
             if ((idioma == 1) or (idioma == 2)):
                 chave_provavel = ataque(input('\nDIGITE A MENSAGEM CIFRADA\n'), idioma)
-                print("\nCHAVE PROVAVEL:\n" + chave_provavel)
+                print("\nCHAVE PROVAVEL:")
+                for x in chave_provavel: print(x, end='')
+                print()
                 input()
 
         elif (op == 4):
