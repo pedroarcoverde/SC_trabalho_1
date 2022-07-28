@@ -12,6 +12,7 @@ from unicodedata import normalize
 import string
 
 alfabeto = 'abcdefghijklmnopqrstuvwxyz'
+#alfabeto = 'abcdefghijklmnopqrstuvwxyz0123456789'
 
 letra_para_numero = dict(zip(alfabeto, range(len(alfabeto))))
 numero_para_letra = dict(zip(range(len(alfabeto)), alfabeto))
