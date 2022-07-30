@@ -20,9 +20,10 @@ numero_para_letra = dict(zip(range(len(alfabeto)), alfabeto))
 def cifra(msg, chave):
     
 #limpa a mensagem (retira acentos, pontuação e coloca em maiscula)
-    msg = msg.replace(' ', '').lower()                                       #tira espaços e coloca em minuscula 
+    msg = msg.replace(' ', '').lower()                                       #tira espaços e coloca em minúsculas 
     msg = normalize('NFKD', msg).encode('ASCII','ignore').decode('ASCII')    #tira acentos
     msg = msg.translate(str.maketrans('', '', string.punctuation))           #tira pontuação
+    msg = ''.join([i for i in msg if not i.isdigit()])                       #tira números
 
     msg = list(msg)                                                          #transforma em lista
 
@@ -69,7 +70,10 @@ def decifra(msg_cifrada, chave):
 def ataque (msg_cifrada: str, idioma):
 
     # formatando a mensagem cifrada para facilitar a analise
-    msg_cifrada = msg_cifrada.replace(' ', '').lower()
+    msg_cifrada = msg_cifrada.replace(' ', '').lower()                                       #tira espaços e coloca em minuscula 
+    msg_cifrada = normalize('NFKD', msg_cifrada).encode('ASCII','ignore').decode('ASCII')    #tira acentos
+    msg_cifrada = msg_cifrada.translate(str.maketrans('', '', string.punctuation))           #tira pontuação
+    msg_cifrada = ''.join([i for i in msg_cifrada if not i.isdigit()])                       #tir digitos
 
 # frequencias em cada idioma para análise
     en_freq = [
