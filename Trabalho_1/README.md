@@ -8,4 +8,4 @@ decifrado segundo a cifra de Vigenère, recuperando uma mensagem.
 ## Parte II: ataque de recuperação de senha por análise de frequência
 Serão fornecidas duas mensagens cifradas (uma em português e outra em inglês) com senhas
 diferentes. Cada uma das mensagens deve ser utilizada para recuperar a senha geradora do
-keystream usado na cifração e então decifradas. 
+keystream usado na cifração e então decifra-las. 
