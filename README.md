@@ -2,4 +2,4 @@
 
 Universidade de Brasília, 2022-1
 
-Professor Gondin, CIC
+Professor Gondim, CIC
