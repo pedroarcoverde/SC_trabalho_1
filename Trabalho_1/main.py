@@ -20,10 +20,10 @@ numero_para_letra = dict(zip(range(len(alfabeto)), alfabeto))
 def cifra(msg, chave):
     
 #limpa a mensagem (retira acentos, pontuação e coloca em maiscula)
-    msg = msg.replace(' ', '').lower()                                       #tira espaços e coloca em minuscula 
+    msg = msg.replace(' ', '').lower()                                       #tira espaços e coloca em minúsculas 
     msg = normalize('NFKD', msg).encode('ASCII','ignore').decode('ASCII')    #tira acentos
     msg = msg.translate(str.maketrans('', '', string.punctuation))           #tira pontuação
-    msg = ''.join([i for i in msg if not i.isdigit()])                       #tir digitos
+    msg = ''.join([i for i in msg if not i.isdigit()])                       #tira números
 
     msg = list(msg)                                                          #transforma em lista
 
