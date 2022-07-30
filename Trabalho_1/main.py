@@ -181,10 +181,13 @@ def main():
         elif (op == 3):
             idioma = int(input('\nESCOLHA QUAL IDIOMA:\n 1 - INGLÊS\n 2 - PORTUGUÊS\n'))
             if ((idioma == 1) or (idioma == 2)):
-                chave_provavel = ataque(input('\nDIGITE A MENSAGEM CIFRADA\n'), idioma)
+                msg_cifrada_ataque = input('\nDIGITE A MENSAGEM CIFRADA\n')
+                chave_provavel = ataque(msg_cifrada_ataque, idioma)
                 print("\nCHAVE PROVAVEL:")
                 for x in chave_provavel: print(x, end='')
                 print()
+                msg_obtida_ataque = decifra(list(msg_cifrada_ataque), chave_provavel)
+                print("\nMENSAGEM OBTIDA:\n" + msg_obtida_ataque)
                 input()
 
         elif (op == 4):
