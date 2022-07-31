@@ -47,9 +47,9 @@ def decifra(msg_cifrada: str, chave):
 
     # formatando a mensagem cifrada para facilitar a analise
     msg_cifrada = normalize('NFKD', str(msg_cifrada)).encode('ASCII','ignore').decode('ASCII')    #tira acentos
-    msg_cifrada = msg_cifrada.translate(str.maketrans('', '', string.punctuation))           #tira pontuação
-    msg_cifrada = msg_cifrada.replace(' ', '').lower()                                       #tira espaços e coloca em minuscula 
-    msg_cifrada = ''.join([i for i in msg_cifrada if not i.isdigit()])                       #tira numeros
+    msg_cifrada = msg_cifrada.translate(str.maketrans('', '', string.punctuation))                #tira pontuação
+    msg_cifrada = msg_cifrada.replace(' ', '').lower()                                            #tira espaços e coloca em minuscula 
+    msg_cifrada = ''.join([i for i in msg_cifrada if not i.isdigit()])                            #tira numeros
 
 # separa a cifra em partes do tamanho da chave
     msg = ''
