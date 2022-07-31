@@ -102,8 +102,8 @@ def ataque (msg_cifrada: str, idioma):
 
 # encontrar o comprimento provavel da chave
     espacamento = []
-    max_chave = 1000
-    tolerancia = 100
+    max_chave = 50
+    tolerancia = 10
 
     for i in range(len(msg_cifrada) - 2):
         tmp = msg_cifrada[i] + msg_cifrada[i+1] + msg_cifrada[i+2]
