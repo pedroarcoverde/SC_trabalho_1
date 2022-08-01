@@ -186,9 +186,11 @@ def main():
         elif (op == 3):
             idioma = int(input('\nESCOLHA QUAL IDIOMA:\n 1 - INGLÊS\n 2 - PORTUGUÊS\n'))
             if ((idioma == 1) or (idioma == 2)):
-                max_chave = int(input('\nUM CHUTE PARA O TAMANHO MÁXIMO DA CHAVE:\n'))
+                max_chave = int(input('\nESCOLHA UM TAMANHO MÁXIMO PARA A CHAVE:\n'))
                 msg_cifrada_ataque = input('\nDIGITE A MENSAGEM CIFRADA:\n')
+                
                 chave_provavel = ataque(msg_cifrada_ataque, idioma, max_chave)
+
                 print("\nCHAVE PROVAVEL:")
                 for x in chave_provavel: print(x, end='')
                 print()

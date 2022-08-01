@@ -73,7 +73,7 @@ def decifra(msg_cifrada: str, chave):
 #     diferentes. Cada uma das mensagens deve ser utilizada para recuperar a senha geradora do
 #     keystream usado na cifração e então decifradas. 
 
-def ataque (msg_cifrada: str, idioma, max_chave, tolerancia):
+def ataque (msg_cifrada: str, idioma, max_chave = 20, tolerancia = 10):
 
     # formatando a mensagem cifrada para facilitar a analise
     msg_cifrada = normalize('NFKD', msg_cifrada).encode('ASCII','ignore').decode('ASCII')    #tira acentos
@@ -185,10 +185,17 @@ def main():
         elif (op == 3):
             idioma = int(input('\nESCOLHA QUAL IDIOMA:\n 1 - INGLÊS\n 2 - PORTUGUÊS\n'))
             if ((idioma == 1) or (idioma == 2)):
-                max_chave = int(input('\nQUAL O TAMANHO MÁXIMO PARA A CHAVE PROVAVEL?\n'))
-                tolerancia = int(input('\nQUAL O TOLERÂNCIA PARA OS TESTES?\n'))
-                msg_cifrada_ataque = input('\nDIGITE A MENSAGEM CIFRADA\n')
-                chave_provavel = ataque(msg_cifrada_ataque, idioma, max_chave, tolerancia)
+
+                op1 = int(input('\nESCOLHER PARAMETROS DE ANALISE AVANÇADOS?\n1 - SIM\n2 - NÃO\n'))
+                if op1 == 1:
+                    max_chave = int(input('\nESCOLHA UM TAMANHO MÁXIMO PARA A CHAVE:\n'))
+                    tolerancia = int(input('\nESCOLHA QUAL A TOLERANCIA PARA OS ESPAÇAMENTOS DA BUSCA:\n(escolha valores maiores quanto maior for o texto, valores entre 10 e 30)\n'))
+                    msg_cifrada_ataque = input('\nDIGITE A MENSAGEM CIFRADA\n')
+                    chave_provavel = ataque(msg_cifrada_ataque, idioma, max_chave, tolerancia)
+                else:
+                    msg_cifrada_ataque = input('\nDIGITE A MENSAGEM CIFRADA\n')
+                    chave_provavel = ataque(msg_cifrada_ataque, idioma)
+                
                 print("\nCHAVE PROVAVEL:")
                 for x in chave_provavel: print(x, end='')
                 print()
