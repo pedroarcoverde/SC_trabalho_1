@@ -73,7 +73,7 @@ def decifra(msg_cifrada: str, chave):
 #     diferentes. Cada uma das mensagens deve ser utilizada para recuperar a senha geradora do
 #     keystream usado na cifração e então decifradas. 
 
-def ataque (msg_cifrada: str, idioma):
+def ataque (msg_cifrada: str, idioma, max_chave):
 
     # formatando a mensagem cifrada para facilitar a analise
     msg_cifrada = normalize('NFKD', msg_cifrada).encode('ASCII','ignore').decode('ASCII')    #tira acentos
@@ -102,7 +102,6 @@ def ataque (msg_cifrada: str, idioma):
 
 # encontrar o comprimento provavel da chave
     espacamento = []
-    max_chave = 15
     tolerancia = 25
 
     for i in range(len(msg_cifrada) - 2):
@@ -180,15 +179,16 @@ def main():
                 input()
 
             elif (op == 2):
-                msg_obtida = decifra(list(input('\nDIGITE A MENSAGEM CIFRADA\n')), chave)
+                msg_obtida = decifra(list(input('\nDIGITE A MENSAGEM CIFRADA:\n')), chave)
                 print("\nMENSAGEM OBTIDA:\n" + msg_obtida)
                 input()
 
         elif (op == 3):
             idioma = int(input('\nESCOLHA QUAL IDIOMA:\n 1 - INGLÊS\n 2 - PORTUGUÊS\n'))
             if ((idioma == 1) or (idioma == 2)):
-                msg_cifrada_ataque = input('\nDIGITE A MENSAGEM CIFRADA\n')
-                chave_provavel = ataque(msg_cifrada_ataque, idioma)
+                max_chave = int(input('\nUM CHUTE PARA O TAMANHO MÁXIMO DA CHAVE:\n'))
+                msg_cifrada_ataque = input('\nDIGITE A MENSAGEM CIFRADA:\n')
+                chave_provavel = ataque(msg_cifrada_ataque, idioma, max_chave)
                 print("\nCHAVE PROVAVEL:")
                 for x in chave_provavel: print(x, end='')
                 print()
