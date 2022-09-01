@@ -31,8 +31,13 @@ def geradorPeQ():
     return pouq
 
 
+def geraE(oDe):
+    e = 1
+    return e
 
-
+def geraD(e, oDe):
+    d = 1
+    return d
 
 
 
