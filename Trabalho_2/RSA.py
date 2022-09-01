@@ -9,6 +9,17 @@ def geraNum(tamBits):
 listaPrimos = []
 def sieveEratosthenes(n):
     primo = [True for i in range(n + 1)]
+    p = 2
+    while (p*p <= n):
+        if (primo[p] == True):
+            for i in range(p*p, n+1, p):
+                primo[i] = False
+        p += 1
+
+    #Loop passando da lista de O(n) para uma lista APENAS com numeros primos
+    for p in range(2, n+1):
+        if primo[p]:
+            listaPrimos.append(p)
 
 # verifica se o numero gerado é primo e retorna
 def geraPrimo(tamBits):
