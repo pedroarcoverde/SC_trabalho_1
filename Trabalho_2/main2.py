@@ -18,7 +18,7 @@ while True:
 print(f"P = {p}\n\n")
 print(f"Q = {q}\n\n")
 
-# 'n' e 'oDn'
+# 'n' e 'O(n)'
 n = p * q
 oDn = (p - 1) * (q - 1)
 
