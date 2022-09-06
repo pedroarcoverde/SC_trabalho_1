@@ -26,8 +26,8 @@ oDn = (p - 1) * (q - 1)
 e = geraE(oDn)
 d = geraD(e, oDn)
 
-print(f"Suas chaves públicas são n = {n}, e = {e}\n")
-print(f"Suas chaves privadas são n = {n}, d = {d}\n")
+print(f"Suas chaves públicas são\n n = {n}\n e = {e}\n")
+print(f"Suas chaves privadas são\n n = {n}\n d = {d}\n")
 
 # Chaves em formato de tuplas
 chavePublica = (e, n)
