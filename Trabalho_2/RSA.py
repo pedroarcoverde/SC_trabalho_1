@@ -1,5 +1,11 @@
 import random
 import math
+from random import randint
+
+
+# Verifica se d ≡ e−1 (mod λ(n)) que é se o resto da divisão de d por λ(n) for e**(-1)
+def isModularMultiplicativeInversive(d,e,oDn):
+    return print('fazer')
 
 # Verifica se 2 números são coprimos
 def isCoprime(x, y):
@@ -53,23 +59,28 @@ def geraPrimo(tamBits):
 
 def geradorPeQ():
     tamBits = 1024  # tamanho de P e Q em Bits
-    pouq = geraPrimo(tamBits)
+    pouq = gera_primo2(tamBits)
     return pouq
 
 
-def geraE(oDe):
+def geraE(oDn):
 
     while True:
-        num = random.randrange(1, oDe - 1)
-        if isCoprime(num, oDe):
+        num = random.randrange(2, oDn - 1)
+        if isCoprime(num, oDn):
             break
 
     return num
 
 
-def geraD(e, oDe):
-    d = 1
-    return d
+def geraD(e, oDn):
+    
+    while True:
+        num = random.randrange(1, oDn - 1)
+        if isModularMultiplicativeInversive(num, e, oDn):
+            break
+    
+    return num
 
 
 def cifracao(chave, textoplano):
@@ -78,3 +89,32 @@ def cifracao(chave, textoplano):
 
 def decifracao(chave, cifra):
     return
+
+
+def gera_primo2(tamanho):
+
+    while True:
+        x = random.randrange(1 << (tamanho-1), (1 << tamanho) - 1)
+        if ehPrimo(x):
+            return x
+
+def ehPrimo(n):    
+    k = 0
+    m = n-1
+
+    while m % 2 == 0:
+        k += 1
+        m>>=1
+    assert((2**k) * m == n - 1)
+
+    for i in range(8):
+        a = random.randrange(2, n)
+        
+        if pow(a, m, n) == 1:
+            return False
+
+        for x in range(k):
+            if pow(a, 2**i * m, n) == n-1:
+                return False
+
+    return True
