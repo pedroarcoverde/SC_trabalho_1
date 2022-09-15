@@ -1,8 +1,11 @@
 from RSA import *
+from OAEP import oaep_encrypt, oaep_decrypt
+import AES
 import base64, hashlib
 import sys
 sys.setrecursionlimit(1500)
-### PARTE I
+
+### PARTE I - GERAÇÃO DE CHAVES E CIFRAÇÃO ASSIMETRICA
 
 ## Gera duas tuplas com as chaves públicas e privadas
 
@@ -32,9 +35,16 @@ print(f"Suas chaves privadas são\n n = {n}\n d = {d}\n")
 chavePublica = (e, n)
 chavePrivada = (d, n)
 
+# Leitura da mensagem
+msg = input("Digite a mensagem:\n")
+
+#msg = open('texto.txt', 'r').read() 
+#print('Conteúdo do arquivo:')
+#print(msg)
 
 
-### PARTE II
+
+### PARTE II - ASSINATURA
 
 ### PARTE III
 

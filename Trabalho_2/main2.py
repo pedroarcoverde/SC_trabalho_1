@@ -1,7 +1,9 @@
-from RSA import *
+from RSA2 import *
+from OAEP import oaep_encrypt, oaep_decrypt
+import AES
 import base64, hashlib
 
-### PARTE I
+### PARTE I - GERAÇÃO DE CHAVES E CIFRAÇÃO ASSIMETRICA
 
 qtdPrimos = 1000   # Qtd de primos para teste de Sieve Eratorthenes
 sieveEratosthenes(qtdPrimos)
@@ -33,9 +35,20 @@ print(f"Suas chaves privadas são\n n = {n}\n d = {d}\n")
 chavePublica = (e, n)
 chavePrivada = (d, n)
 
+msg = input("Digite a mensagem:\n")
 
+#msg = open('texto.txt', 'r').read() 
+#print('Conteúdo do arquivo:')
+#print(msg)
 
-### PARTE II
+c_key = AES.chvSess 
+#Cifracao assimetrica da chave de sessao
+c_key = oaep_encrypt(c_key)
+
+print('Chave de sessao cifrada com RSA-OAEP')
+print(c_key)
+
+### PARTE II - ASSINATURA
 
 ### PARTE III
 

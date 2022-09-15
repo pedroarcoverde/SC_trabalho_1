@@ -1,14 +1,18 @@
+import secrets
+import hashlib
+
 G = 1024
 H = 512
 
-def G_hash(y):
+
+def G_hash():
     return
 
-def H_hash(x):
+def H_hash():
     return
 
-def oaep_cifra(msg):
+def oaep_encrypt():
     return
 
-def oaep_decifra(cifra):
+def oaep_decrypt():
     return

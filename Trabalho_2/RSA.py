@@ -1,9 +1,7 @@
 import random
 import math
 
-########### implementar confirmação probalistica deq primo realmente é primo ##########################
-# Nova implementação para gerar o primo
-def gera_primo(tamanho):
+def geraPrimo(tamanho):
 
     while True:
         x = random.randrange(1 << (tamanho-1), (1 << tamanho) - 1)
@@ -36,7 +34,7 @@ def ehPrimo(n):
 
 def geradorPeQ():
     tamBits = 1024  # tamanho de P e Q em Bits
-    pouq = gera_primo(tamBits)
+    pouq = geraPrimo(tamBits)
     return pouq
 
 
@@ -49,9 +47,6 @@ def geraE(oDn):
 
     return num
 
-def geraD(e, oDn):
-    return modularInversion(e, oDn)[1] % oDn
-    
 
 def modularInversion(e, oDn):
     if e == 0:
@@ -61,10 +56,21 @@ def modularInversion(e, oDn):
         return (a, c - (oDn // e) * b, b)
 
 
-def cifracao(chave, textoplano):
-    return
+def geraD(e, oDn):
+    return modularInversion(e, oDn)[1] % oDn
+    
+
+def cifracao(chave, txtplano):
+    key, n = chave
+    #Conversao por a^b mod m
+    cifra = [pow(ord(char),key,n) for char in txtplano]
+    return cifra
 
 
 def decifracao(chave, cifra):
-    return
+    key, n = chave
+    #Conversao das letras cifradas baseada na chave
+    aux = [str(pow(char,key,n)) for char in cifra]
+    txtplano = [chr(int(char2)) for char2 in aux]
+    return ''.join(txtplano)
 
