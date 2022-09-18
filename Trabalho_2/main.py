@@ -36,6 +36,8 @@ while(op != 4):
             msg = f.read()
 
         msg_cifrada = AES.ctr(msg, chave, iv)
+        with open(arquivo, "wb") as f:
+            f.write(msg_cifrada)
 
         assinatura = RSA.assina(chave_privada, msg)
         assinatura = base64.b64encode(assinatura).decode("ascii")
@@ -52,6 +54,10 @@ while(op != 4):
 
     # DECIFRA E VERIFICA ASSINATURA DA CIFRA
     elif op == 3:
+
+        arquivo = Path(__file__).absolute().parent / "texto.txt"
+        with open(arquivo, "rb") as f:
+            msg_cifrada = f.read()
        
         assinatura = base64.b64decode(assinatura)
         chave_sess_cifra = base64.b64decode(chave_sess_cifra)
@@ -66,8 +72,9 @@ while(op != 4):
             print("\nAssinatura confere\n")
             print('MENSAGEM:\n')
             print(msg)
-            #with open('texto.txt', "wb") as f:
-            #    f.write(msg)
+            arquivo = Path(__file__).absolute().parent / "texto.txt"
+            with open(arquivo, "wb") as f:
+                f.write(msg)
         else:
             print("\nAssinatura NÃO confere\n")
 
@@ -80,3 +87,12 @@ while(op != 4):
     else:
         continue
 
+
+
+# TEXTO PARA TESTES
+
+# Lorem ipsum dolor sit amet. Qui voluptatem ipsa qui debitis distinctio veniam deleniti et molestiae blanditiis. Et ipsum voluptatem eum quis odio 33 fugit accusamus non quia perferendis aut facilis dolorum aut rerum quasi. Quo rerum fugit et libero voluptatum non unde voluptatem est dolorum eaque qui voluptatem aliquid ut autem voluptas. Aut aspernatur recusandae aut blanditiis impedit eum ipsum blanditiis et provident nulla quo debitis autem est voluptates odio quo exercitationem nostrum.
+
+# Ex nesciunt dicta sit consequatur eius ea magnam soluta. Quo facere optio qui facilis illum et deserunt molestiae et molestias totam et sapiente aspernatur ea numquam quod et corporis asperiores. Sed tempore deserunt id esse minima non numquam dolores ut voluptate nobis qui quisquam iste eos quia possimus sit voluptatibus rerum. Non ipsam consectetur ex vitae dolor a aspernatur sunt sed explicabo perferendis.
+
+# Sit minus assumenda ea reprehenderit omnis aut aperiam molestiae ad sint fugiat quo nesciunt ducimus. Ut voluptatem doloribus et rerum facere et dolore ut voluptatem modi aspernatur esse. Ea repellat magni hic explicabo ipsa et possimus officia a impedit quos qui suscipit laborum est voluptatem consequatur qui quas laborum. Ut modi dolores non error magni et reiciendis consequatur.
