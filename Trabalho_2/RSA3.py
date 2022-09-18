@@ -47,16 +47,29 @@ def geraE(oDn):
     return e
 
 
-def modularInversion(e, oDn):
-    if e == 0:
-        return (oDn, 0, 1)
-    else:
-        a, b, c = modularInversion(oDn % e, e)
-        return (a, c - (oDn // e) * b, b)
-
-
 def geraD(e, oDn):
-    return modularInversion(e, oDn)[1] % oDn
+        #Bruxaria realizada durante a madrugada, apenas eu (Dur4ndal) e Jesus cristo sabemos o que rolou aqui. #Shalom
+        d = 0
+        x1 = 0
+        x2 = 1
+        y1 = 1
+        tmp = oDn
+
+        while e>0:
+                tmp1 = tmp//e
+                tmp2 = tmp - tmp1*e
+                tmp = e
+                e = tmp2
+
+                x = x2 - tmp1 * x1
+                y = d - tmp1 * y1
+
+                x2 = x1
+                x1 = x
+                d = y1
+                y1 = y
+        if tmp == 1:
+                return d+oDn
 
 
 def gera_chaves():

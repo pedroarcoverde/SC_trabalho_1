@@ -36,12 +36,14 @@ def decifra_oaep(n, msg_cifrada):
     k = (n.bit_length() + 7) // 8
     tam_hash = 20
 
-    lixo, masked_seed, masked_data_block = msg_cifrada[:1], msg_cifrada[1:1 + tam_hash], msg_cifrada[1 + tam_hash:]
+    _, masked_seed, masked_data_block = msg_cifrada[:1], msg_cifrada[1:1 + tam_hash], msg_cifrada[1 + tam_hash:]
 
     seed = mask(masked_seed, masked_data_block, tam_hash)
 
     data_block = mask(masked_data_block, seed, k - tam_hash - 1)
 
-    lixo, msg = data_block.split(b'\x01')
+    #print(data_block)
+
+    _, msg = data_block.split(b'\x01')
 
     return msg
