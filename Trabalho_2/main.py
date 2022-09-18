@@ -69,7 +69,7 @@ while(op != 4):
             #with open('texto.txt', "wb") as f:
             #    f.write(msg)
         else:
-            print("Assinatura NÃO confere")
+            print("\nAssinatura NÃO confere\n")
 
 
 
