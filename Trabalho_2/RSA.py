@@ -57,7 +57,6 @@ def modularInversion(e, oDn):
         a, b, c = modularInversion(oDn % e, e)
         return (a, c - (oDn // e) * b, b) #back substitution
 
-
 def gera_chaves():
 
     p = geraPrimo(1024)
