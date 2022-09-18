@@ -12,14 +12,14 @@ def geraPrimo(tamanho):
         if ehPrimo(x):
             return x
 
-
+# Teste de primalidade Miller-Rabin
 def ehPrimo(n):    
     k = 0
     m = n-1
 
     while m % 2 == 0:
         k += 1
-        m >>=1
+        m >>= 1
        
     if (2**k) * m != n - 1:
         return False
