@@ -41,24 +41,23 @@ def geradorPeQ():
 def geraE(oDn):
 
     while True:
-        num = random.randrange(2, oDn)
+        num = random.randrange(1, oDn)
         if math.gcd(oDn, num) == 1:
             break
 
     return num
 
+def geraD(e, oDn):
+    return modularInversion(e, oDn)[1] % oDn
 
+# Implementação do algoritmo de euclides
 def modularInversion(e, oDn):
     if e == 0:
         return (oDn, 0, 1)
     else:
         a, b, c = modularInversion(oDn % e, e)
-        return (a, c - (oDn // e) * b, b)
+        return (a, c - (oDn // e) * b, b) #back substitution
 
-
-def geraD(e, oDn):
-    return modularInversion(e, oDn)[1] % oDn
-    
 
 def cifracao(chave, txtplano):
     key, n = chave
