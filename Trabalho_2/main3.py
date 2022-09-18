@@ -30,12 +30,36 @@ while(op != 4):
         assinatura = RSA3.assina(chave_privada, msg)
         assinatura = base64.b64encode(assinatura).decode("ascii")
 
+        print('MENSAGEM:\n')
+        print(msg)
+        print('\nMENSAGEM CIFRADA:\n')
+        print(msg_cifrada)
+        print('\nCHAVE DA SESSÃO:\n')
+        print(chave_sess)
+        print('\nCHAVE DA SESSÃO DA CIFRA:\n')
+        print(chave_sess_cifra)
+        print()
+
     # DECIFRA E VERIFICA ASSINATURA DA CIFRA
     elif op == 3:
        
         assinatura = base64.b64decode(assinatura)
+        chave_sess_cifra = base64.b64decode(chave_sess_cifra)
+        
+        chave_sess = RSA3.decifra(chave_privada, chave_sess_cifra)
+        chave, iv = chave_sess[:16], chave_sess[16:]
 
+        msg = AES.ctr(msg_cifrada, chave, iv)
+        confere = RSA3.verifica_assinatura(chave_publica, msg, assinatura)
 
+        if confere:
+            print("Assinatura confere")
+            print('MENSAGEM:\n')
+            print(msg)
+            #with open('texto.txt', "wb") as f:
+            #    f.write(msg)
+        else:
+            print("Assinatura NÃO confere")
 
 
 
