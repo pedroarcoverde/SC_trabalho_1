@@ -1,77 +1,82 @@
+#!/usr/bin/python3
+
+import base64
 import secrets
-from RSA import *
-from OAEP import oaep_encrypt, oaep_decrypt
+from pathlib import Path
+
+import RSA
 import AES
-import base64, hashlib
-import sys
-sys.setrecursionlimit(1500)
 
-### PARTE I - GERAÇÃO DE CHAVES E CIFRAÇÃO ASSIMETRICA
 
-## Gera duas tuplas com as chaves públicas e privadas
+op = 0
+while(op != 4):
+    op = int(input("ESCOLHA UMA OPÇÃO:\n\n1) GERAR CHAVES\n2) CIFRAR\n3) DECIFRAR\n4) FECHAR\n"))
 
-# Gera p e q distintos
-p = geradorPeQ() 
-while True:
-    q = geradorPeQ()
-    if (p != q):
+    # GERA AS CHAVES PÚBLICAS E PRIVADAS
+    if op == 1:
+        chave_publica, chave_privada = RSA.gera_chaves()
+
+        print(chave_publica)
+        print()
+        print(chave_privada)
+        print()
+
+    # CIFRA E ASSINA A MSG
+    elif op == 2:
+        secrets.token_bytes(16), secrets.token_bytes(16)
+        chave, iv = secrets.token_bytes(16), secrets.token_bytes(16)
+
+        chave_sess = chave + iv
+        chave_sess_cifra = RSA.cifra(chave_publica, chave_sess)
+        chave_sess_cifra = base64.b64encode(chave_sess_cifra).decode("ascii")
+
+
+        arquivo = Path(__file__).absolute().parent / "texto.txt"
+        with open(arquivo, "rb") as f:
+            msg = f.read()
+
+        msg_cifrada = AES.ctr(msg, chave, iv)
+
+        assinatura = RSA.assina(chave_privada, msg)
+        assinatura = base64.b64encode(assinatura).decode("ascii")
+
+        print('MENSAGEM:\n')
+        print(msg)
+        print('\nMENSAGEM CIFRADA:\n')
+        print(msg_cifrada)
+        print('\nCHAVE DA SESSÃO:\n')
+        print(chave_sess)
+        print('\nCHAVE DA SESSÃO DA CIFRA:\n')
+        print(chave_sess_cifra)
+        print()
+
+    # DECIFRA E VERIFICA ASSINATURA DA CIFRA
+    elif op == 3:
+       
+        assinatura = base64.b64decode(assinatura)
+        chave_sess_cifra = base64.b64decode(chave_sess_cifra)
+        
+        chave_sess = RSA.decifra(chave_privada, chave_sess_cifra)
+        chave, iv = chave_sess[:16], chave_sess[16:]
+
+        msg = AES.ctr(msg_cifrada, chave, iv)
+        confere = RSA.verifica_assinatura(chave_publica, msg, assinatura)
+
+        if confere:
+            print("Assinatura confere")
+            print('MENSAGEM:\n')
+            print(msg)
+            #with open('texto.txt', "wb") as f:
+            #    f.write(msg)
+        else:
+            print("Assinatura NÃO confere")
+
+
+
+    # ENCERRA O PROGRAMA
+    elif op == 4:
         break
 
-print(f"P = {p}\n\n")
-print(f"Q = {q}\n\n")
+    else:
+        continue
 
-
-# 'n' e 'O(n)'
-n = p * q               #calculamos o modulo RSA (o que linka as chaves)
-oDn = (p - 1) * (q - 1) #oDn é o totient
-
-# Chaves públicas E e D
-e = geraE(oDn)
-
-d = geraD(e, oDn)
-
-print(f"Suas chaves públicas são\n n = {n}\n e = {e}\n")
-print(f"Suas chaves privadas são\n n = {n}\n d = {d}\n")
-
-# Chaves em formato de tuplas
-chavePublica = (e, n)
-chavePrivada = (d, n)
-
-# Leitura da mensagem
-msg = input("Digite a mensagem:\n")
-
-
-
-# PARTE II: Cifra simétrica 
-
-#Gerando chave de assinatura
-k1, k2 = secrets.token_bytes(16),secrets.token_bytes(16)
-
-#print(int.from_bytes(b'\xbb\x0f|\xa9:_\xeci=\x0cL.\xe5#\xd4F', "little")) #para ver o número em decimal
-
-chaveSessao = k1 + k2
-
-"""
-como fica 
-b'\xecu\xe9;\xb1Cv_\xcc\x9cB\xbe]\x83\xb7\x90' = k1 
-b'\x92\x81\x81\x9f\x03\xb0\x89)\xf4S\xb7\x15/\x0e\x16P' = k2
-b'\xecu\xe9;\xb1Cv_\xcc\x9cB\xbe]\x83\xb7\x90\x92\x81\x81\x9f\x03\xb0\x89)\xf4S\xb7\x15/\x0e\x16P' = chaveSessao
-
-"""
-
-mensagemCifrada = AES.ctr(msg, k1, k2)
-
-
-
-
-#msg = open('texto.txt', 'r').read() 
-#print('Conteúdo do arquivo:')
-#print(msg)
-
-
-
-### PARTE II - ASSINATURA
-
-### PARTE III
-
-### PARTE IV
