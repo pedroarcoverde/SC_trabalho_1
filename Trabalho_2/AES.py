@@ -62,7 +62,7 @@ def inc(bytes):
 def xtime(x):
     return (((x << 1) ^ 0x1B) & 0xFF) if (x & 0x80) else (x << 1)
 
-
+'''The AES algorithm takes the Cipher Key, K, and performs a Key Expansion routine to generate a key schedule.'''
 def expand_key(key):
     words = convert(key, 4)
     for i in range(4, 44):
@@ -72,19 +72,19 @@ def expand_key(key):
         words.append(bytes([*map(xor, words[i-4], temp)]))
     return [b''.join(word) for word in convert(words, 4)]
 
-
+'''transformation, a Round Key is added to the State by a simple bitwise XOR operation. Each Round Key consists of Nb words from the key schedule '''
 def add_round_key(state, key):
     return bytes(map(xor, state, key))
 
-
+'''transformation is a non-linear byte substitution that operates independently on each byte of the State using a substitution table'''
 def sub_bytes(state):
     return state.translate(SBOX)
 
-
+''' transformation, the bytes in the last three rows of the State are cyclically shifted over different numbers of bytes (offsets)'''
 def shift_rows(state, offset=5):
     return (state * offset)[::offset]
 
-
+'''transformation operates on the State column-by-column, treating each column as a four-term polynomial as described in Sec'''
 def mix_column(r):
     return [reduce(xor, [a, *r, xtime(a ^ b)]) for a, b in zip(r, rotate(r))]
 
@@ -108,8 +108,8 @@ def cipher(block, keys):
 def ctr(msg, chave, iv):   
     chaves =  expand_key(chave)
     blocos = convert(msg, 16)
-    ciphers = (cipher(nonce, chaves) for nonce in inc(iv))
-    cipher_text = map(add_round_key, blocos, ciphers)
-    return b''.join(cipher_text)
+    cifras = (cipher(nonce, chaves) for nonce in inc(iv))
+    textoCifrado = map(add_round_key, blocos, cifras)
+    return b''.join(textoCifrado)
 
 
