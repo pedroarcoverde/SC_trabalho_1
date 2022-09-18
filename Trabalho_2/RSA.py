@@ -14,6 +14,7 @@ def geraPrimo(tamanho):
         if ehPrimo(x):
             return x
 
+
 def ehPrimo(n):
     k = 0
     m = n - 1
@@ -46,8 +47,10 @@ def geraE(oDn):
             break
     return e
 
+
 def geraD(e, oDn):
     return modularInversion(e, oDn)[1] % oDn
+
 
 # Implementação do algoritmo de euclides
 def modularInversion(e, oDn):
@@ -56,6 +59,7 @@ def modularInversion(e, oDn):
     else:
         a, b, c = modularInversion(oDn % e, e)
         return (a, c - (oDn // e) * b, b) #back substitution
+
 
 def gera_chaves():
 
