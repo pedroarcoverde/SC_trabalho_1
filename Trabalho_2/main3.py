@@ -30,8 +30,10 @@ while(op != 4):
         chave_sess_cifra = RSA3.cifra(chave_publica, chave_sess)
         chave_sess_cifra = base64.b64encode(chave_sess_cifra).decode("ascii")
 
-        with open(Path(__file__).absolute().parent / "texto.txt", "rb") as file: # Leitura do arquivo "texto.txt"
+        arquivo = Path(__file__).absolute().parent / "texto.txt"
+        with open(arquivo, "r") as file:                            # Leitura da mensagem "texto.txt"
             msg = file.read()
+
         msg_cifrada = AES.ctr(msg, chave, iv)
 
         assinatura = RSA3.assina(chave_privada, msg)
