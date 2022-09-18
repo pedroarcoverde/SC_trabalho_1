@@ -1,17 +1,9 @@
 
 
-
-def split(msg, tamanho):
-    listaBlocos = []
-    
-    for indiceLetra in range(0, len(msg), tamanho):
-        listaBlocos.append(msg[indiceLetra: indiceLetra + tamanho])
-
-    return listaBlocos
+from functools import reduce
+from operator import xor
 
 
-def ctr(msg, k1, k2):    
-    blocks = split(msg, 16)
 SBOX = bytes([
     0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76,
     0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0,
@@ -37,3 +29,85 @@ RCON = (
     0x2F, 0x5E, 0xBC, 0x63, 0xC6, 0x97, 0x35, 0x6A,
     0xD4, 0xB3, 0x7D, 0xFA, 0xEF, 0xC5, 0x91, 0x39,
 )
+
+
+def pad(message):
+    size = 16 - len(message) % 16
+    return message + bytes([size] * size)
+
+
+def unpad(message):
+    return message[:-message[-1]]
+
+
+def rotate(list):
+    return (list*2)[1:5]
+
+
+def convert(msg, tamanho):
+    listaBlocos = []
+    
+    for indiceLetra in range(0, len(msg), tamanho):
+        listaBlocos.append(msg[indiceLetra: indiceLetra + tamanho])
+
+    return listaBlocos
+
+def inc(bytes):
+    as_int = int.from_bytes(bytes, "big")
+    while True:
+        as_int += 1
+        yield (as_int).to_bytes(16, "big")
+
+
+def xtime(x):
+    return (((x << 1) ^ 0x1B) & 0xFF) if (x & 0x80) else (x << 1)
+
+
+def expand_key(key):
+    words = convert(key, 4)
+    for i in range(4, 44):
+        temp = words[i-1]
+        if i % 4 == 0:
+            *temp, = map(xor, rotate(temp).translate(SBOX), [RCON[i//4], 0, 0, 0])
+        words.append(bytes([*map(xor, words[i-4], temp)]))
+    return [b''.join(word) for word in convert(words, 4)]
+
+
+def add_round_key(state, key):
+    return bytes(map(xor, state, key))
+
+
+def sub_bytes(state):
+    return state.translate(SBOX)
+
+
+def shift_rows(state, offset=5):
+    return (state * offset)[::offset]
+
+
+def mix_column(r):
+    return [reduce(xor, [a, *r, xtime(a ^ b)]) for a, b in zip(r, rotate(r))]
+
+
+def mix_columns(state):
+    return [x for r in convert(state, 4) for x in mix_column(r)]
+
+
+def cipher(block, keys):
+    state = add_round_key(block, keys[0])
+    
+    for round in range(1, 11):
+        state = sub_bytes(state)
+        state = shift_rows(state)
+        if round != 10:
+            state = mix_columns(state)
+        state = add_round_key(state, keys[round])
+    return state
+
+
+def ctr(msg, chave, iv):   
+    chaves =  expand_key(chave)
+    blocos = convert(msg, 16)
+    ciphers = (cipher(nonce, chaves) for nonce in inc(iv))
+    cipher_text = map(add_round_key, blocos, ciphers)
+    return b''.join(cipher_text)

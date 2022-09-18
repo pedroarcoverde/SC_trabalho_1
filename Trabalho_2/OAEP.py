@@ -13,16 +13,16 @@ def mask(data, seed, mlen):
     return bytes(map(xor, data, bytes(len(data)) + txt[:mlen]))
 
 
-def cifra_oaep(n, msg):
+def cifra_oaep(n, chaveSes):
     k = (n.bit_length() + 7) // 8
-    tam_msg = len(msg)
+    tam_chaveSes = len(chaveSes)
     tam_hash = 20
 
     lable_hash = b"\xda9\xa3\xee^kK\r2U\xbf\xef\x95`\x18\x90\xaf\xd8\x07\t"
 
-    padding_string = b"\x00" * (k - tam_msg - 2 * tam_hash - 2)
+    padding_string = b"\x00" * (k - tam_chaveSes - 2 * tam_hash - 2)
 
-    data_block = lable_hash + padding_string + b'\x01' + msg
+    data_block = lable_hash + padding_string + b'\x01' + chaveSes
 
     seed = urandom(tam_hash)
 
