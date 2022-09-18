@@ -63,7 +63,7 @@ while(op != 4):
         confere = RSA.verifica_assinatura(chave_publica, msg, assinatura)
 
         if confere:
-            print("Assinatura confere")
+            print("\nAssinatura confere\n")
             print('MENSAGEM:\n')
             print(msg)
             #with open('texto.txt', "wb") as f:
