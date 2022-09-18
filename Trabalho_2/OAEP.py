@@ -42,8 +42,6 @@ def decifra_oaep(n, msg_cifrada):
 
     data_block = mask(masked_data_block, seed, k - tam_hash - 1)
 
-    #print(data_block)
-
     _, msg = data_block.split(b'\x01')
 
     return msg
