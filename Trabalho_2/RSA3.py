@@ -1,6 +1,8 @@
 import random
 import math
 from hashlib import sha3_256
+import sys
+sys.setrecursionlimit(1500)
 
 import OAEP
 
@@ -59,8 +61,8 @@ def geraD(e, oDn):
 
 def gera_chaves():
 
-    p = geraPrimo()
-    q = geraPrimo()
+    p = geraPrimo(1024)
+    q = geraPrimo(1024)
     n = p * q
     oDn = (p - 1) * (q - 1)
 

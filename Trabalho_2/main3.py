@@ -2,18 +2,24 @@
 
 import base64
 import secrets
+from pathlib import Path
 
 import RSA3
 import AES
 
 
-
+op = 0
 while(op != 4):
     op = int(input("ESCOLHA UMA OPÇÃO:\n\n1) GERAR CHAVES\n2) CIFRAR\n3) DECIFRAR\n4) FECHAR\n"))
 
     # GERA AS CHAVES PÚBLICAS E PRIVADAS
     if op == 1:
         chave_publica, chave_privada = RSA3.gera_chaves()
+
+        print(chave_publica)
+        print()
+        print(chave_privada)
+        print()
 
     # CIFRA E ASSINA A MSG
     elif op == 2:
@@ -24,7 +30,8 @@ while(op != 4):
         chave_sess_cifra = RSA3.cifra(chave_publica, chave_sess)
         chave_sess_cifra = base64.b64encode(chave_sess_cifra).decode("ascii")
 
-        msg = open('texto.txt', 'r').read() 
+        with open(Path(__file__).absolute().parent / "texto.txt", "rb") as file: # Leitura do arquivo "texto.txt"
+            msg = file.read()
         msg_cifrada = AES.ctr(msg, chave, iv)
 
         assinatura = RSA3.assina(chave_privada, msg)
