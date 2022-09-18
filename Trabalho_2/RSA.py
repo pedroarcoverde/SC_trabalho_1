@@ -15,26 +15,50 @@ def geraPrimo(tamanho):
             return x
 
 # Teste de primalidade Miller-Rabin
-def ehPrimo(n):    
+# def ehPrimo(n):    
+#     k = 0
+#     m = n-1
+
+#     while m % 2 == 0:
+#         k += 1
+#         m >>= 1
+       
+#     if (2**k) * m != n - 1:
+#         return False
+
+#     for i in range(8):
+#         a = random.randrange(2, n)
+        
+#         if pow(a, m, n) == 1:
+#             return False
+
+#         for x in range(k):
+#             if pow(a, 2**i * m, n) == n-1:
+#                 return False
+
+#     return True
+
+def ehPrimo(n):
     k = 0
-    m = n-1
+    m = n - 1
 
     while m % 2 == 0:
         k += 1
         m >>= 1
-       
-    if (2**k) * m != n - 1:
+
+    for i in range(40):
+
+        a = random.randrange(2, n - 1)
+        x = pow(a, m, n)
+
+        if x == 1 or x == n - 1:
+            continue
+
+        for i in range(k - 1):
+            x = pow(x, 2, n)
+            if x == n - 1:
+                break
         return False
-
-    for i in range(8):
-        a = random.randrange(2, n)
-        
-        if pow(a, m, n) == 1:
-            return False
-
-        for x in range(k):
-            if pow(a, 2**i * m, n) == n-1:
-                return False
 
     return True
 
@@ -46,19 +70,9 @@ def geraE(oDn):
             break
     return e
 
-# def geraD(e, oDn):
-#     return modularInversion(e, oDn)[1] % oDn
-
-# # Implementação do algoritmo de euclides
-# def modularInversion(e, oDn):
-#     if e == 0:
-#         return (oDn, 0, 1)
-#     else:
-#         a, b, c = modularInversion(oDn % e, e)
-#         return (a, c - (oDn // e) * b, b) #back substitution
 
 def geraD(e, oDn):
-        # Bruxaria
+        #Bruxaria realizada durante a madrugada, apenas eu (Dur4ndal) e Jesus cristo sabemos o que rolou aqui. #Shalom
         d = 0
         x1 = 0
         x2 = 1
@@ -78,7 +92,6 @@ def geraD(e, oDn):
                 x1 = x
                 d = y1
                 y1 = y
-                
         if tmp == 1:
                 return d+oDn
 
