@@ -32,7 +32,7 @@ while(op != 4):
 
 
         arquivo = Path(__file__).absolute().parent / "texto.txt"
-        with open(arquivo, "r") as f:
+        with open(arquivo, "rb") as f:
             msg = f.read()
 
         msg_cifrada = AES.ctr(msg, chave, iv)
