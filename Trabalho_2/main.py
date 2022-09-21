@@ -16,10 +16,12 @@ while(op != 4):
     if op == 1:
         chave_publica, chave_privada = RSA.gera_chaves()
 
-        print(chave_publica)
-        print()
-        print(chave_privada)
-        print()
+        n, e = chave_publica
+        n, d = chave_privada
+
+        print(f'CHAVE PÚBLICA:\nN: {n}\nE: {e}\n')
+        print(f'CHAVE PRIVADA:\nN: {n}\nD: {d}\n')
+        input()
 
     # CIFRA E ASSINA A MSG
     elif op == 2:
@@ -44,13 +46,22 @@ while(op != 4):
 
         print('MENSAGEM:\n')
         print(msg)
+        input()
         print('\nMENSAGEM CIFRADA:\n')
         print(msg_cifrada)
+        input()
         print('\nCHAVE DA SESSÃO:\n')
         print(chave_sess)
-        print('\nCHAVE DA SESSÃO DA CIFRA:\n')
+        print()
+        input()
+        print('\nCHAVE DA SESSÃO CIFRADA:\n')
         print(chave_sess_cifra)
         print()
+        input()
+        print('\nASSINATURA:\n')
+        print(assinatura)
+        print()
+        input()
 
     # DECIFRA E VERIFICA ASSINATURA DA CIFRA
     elif op == 3:
