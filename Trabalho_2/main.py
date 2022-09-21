@@ -25,7 +25,6 @@ while(op != 4):
 
     # CIFRA E ASSINA A MSG
     elif op == 2:
-        secrets.token_bytes(16), secrets.token_bytes(16)
         chave, iv = secrets.token_bytes(16), secrets.token_bytes(16)
 
         chave_sess = chave + iv
