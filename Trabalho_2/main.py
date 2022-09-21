@@ -85,7 +85,7 @@ while(op != 4):
             print("\nAssinatura confere\n")
             print('MENSAGEM:\n')
             print(msg)
-            arquivo = Path(__file__).absolute().parent / "texto.txt"
+            arquivo = Path(__file__).absolute().parent / arq
             with open(arquivo, "wb") as f:
                 f.write(msg)
         else:
