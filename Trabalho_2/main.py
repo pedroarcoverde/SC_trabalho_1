@@ -31,8 +31,9 @@ while(op != 4):
         chave_sess_cifra = RSA.cifra(chave_publica, chave_sess)
         chave_sess_cifra = base64.b64encode(chave_sess_cifra).decode("ascii")
 
-
-        arquivo = Path(__file__).absolute().parent / "texto.txt"
+        arq = input('\nNOME DO ARQUIVO A SER CIFRADO: ')
+        print()
+        arquivo = Path(__file__).absolute().parent / arq
         with open(arquivo, "rb") as f:
             msg = f.read()
 
@@ -65,7 +66,9 @@ while(op != 4):
     # DECIFRA E VERIFICA ASSINATURA DA CIFRA
     elif op == 3:
 
-        arquivo = Path(__file__).absolute().parent / "texto.txt"
+        arq = input('\nNOME DO ARQUIVO A SER DECIFRADO: ')
+        print()
+        arquivo = Path(__file__).absolute().parent / arq
         with open(arquivo, "rb") as f:
             msg_cifrada = f.read()
        
