@@ -14,7 +14,7 @@ def geraPrimo(tamanho):
         if ehPrimo(x):
             return x
 
-#(miller rabin)
+# miller rabin
 def ehPrimo(n):
     k = 0
     m = n - 1
